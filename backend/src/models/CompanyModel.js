@@ -15,14 +15,22 @@ const companySchema = new Schema(
       type: String,
       required: true,
     },
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 446f43ab5ea471ce083909da5a43681a24ec9bc2
     companyDescription: {
       type: String,
       default: "",
     },
     companyWebsite: {
       type: String,
+<<<<<<< HEAD
       default: "",
+=======
+      default:"",
+>>>>>>> 446f43ab5ea471ce083909da5a43681a24ec9bc2
     },
     location: {
       type: String,
