@@ -6,7 +6,7 @@ import CreateJobPage from './pages/CompanyPages/CreateJobPage'
 import JobPostingsPage from './pages/CompanyPages/JobPostingsPage'
 import CompanyDashboard from './Pages/CompanyPages/CompanyDashboard';
 import CompanyProfilePage from './pages/CompanyPages/CompanyProfile'
-import LandingPage from './pages/Others/LandingPage';
+import LandingPage from './Pages/Others/LandingPage';
 import JobSearch from './pages/UserPages/JobSearch';
 import JobDetails from './pages/UserPages/JobDetails';  // Assuming you have a JobDetails component
 import UserAuth from './pages/UserPages/AuthPage';
