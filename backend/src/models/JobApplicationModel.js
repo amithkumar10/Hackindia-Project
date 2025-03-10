@@ -1,3 +1,4 @@
+
 import mongoose,{Schema} from "mongoose";
 
 const jobApplicationSchema = new Schema({
@@ -23,3 +24,4 @@ const jobApplicationSchema = new Schema({
 })
 
 export const JobApplication = mongoose.model("JobApplication",jobApplicationSchema);    
+

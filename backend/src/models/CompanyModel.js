@@ -15,14 +15,16 @@ const companySchema = new Schema(
       type: String,
       required: true,
     },
-   
+
     companyDescription: {
       type: String,
       default: "",
     },
     companyWebsite: {
       type: String,
+
       default:"",
+
     },
     location: {
       type: String,

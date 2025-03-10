@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import {Freelancer} from "../../models/FreelancerModel.js";
+
 import mongoose from "mongoose";
 
 //SIGNUP CONTROLLER
