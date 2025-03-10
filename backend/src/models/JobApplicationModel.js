@@ -15,7 +15,7 @@ const jobApplicationSchema = new Schema({
     },
     applicationStatus:{
         type:String,
-        enum:["pending","accepted","rejected"],
+        enum:["pending","accepted","rejected","shortlisted"],//added shortlisted
         default:"pending"
     },
 
