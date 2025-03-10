@@ -79,14 +79,8 @@ const freelancerSchema = new Schema({
   },
 });
 
-<<<<<<< HEAD
-const Freelancer = mongoose.model("Freelancer", freelancerSchema);
-
-export default Freelancer;
-=======
 
 export const Freelancer = mongoose.model("Freelancer", freelancerSchema);
 
 
 
->>>>>>> 446f43ab5ea471ce083909da5a43681a24ec9bc2
