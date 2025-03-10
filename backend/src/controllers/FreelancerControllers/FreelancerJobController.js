@@ -1,7 +1,7 @@
 import { JobPosting } from "../../models/JobPostingModel.js";
 import { JobApplication } from "../../models/JobApplicationModel.js";
 import { Company } from "../../models/CompanyModel.js";
-import Freelancer from "../../models/FreelancerModel.js";
+import { Freelancer } from "../../models/FreelancerModel.js";
 import mongoose from "mongoose";
 
 //GET ALL JOBS (FILTER IT IN FRONTEND)
