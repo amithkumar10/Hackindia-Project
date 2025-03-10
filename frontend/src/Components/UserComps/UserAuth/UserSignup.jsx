@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 const UserSignup = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -44,9 +44,9 @@ const UserSignup = () => {
 
       <input type="text" name="experience" placeholder="Experience (in years)" value={formData.experience} onChange={handleChange} className="input rounded-lg input-bordered w-full bg-neutral-800 text-white" />
 
-     
-
-      <button type="submit" className="btn btn-primary w-full">Sign Up</button>
+      <Link to="/user/dashboard">
+      <button type="submit" className="btn btn-primary w-full rounded-lg">Sign Up</button></Link>
+      
     </form>
   );
 };

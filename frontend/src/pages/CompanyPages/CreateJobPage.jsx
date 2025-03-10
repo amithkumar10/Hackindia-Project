@@ -1,5 +1,5 @@
 import React from 'react';
-import MiniNavbar from '../../components/Others/MiniNavbar';
+import MiniNavbar from '../../components/Others/CompanyMiniNavbar';
 import JobForm from '../../components/CompanyComps/CreateJobPage/JobForm';
 
 const CreateJobPage = () => {

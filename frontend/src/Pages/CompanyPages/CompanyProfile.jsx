@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import MiniNavbar from "../../components/Others/MiniNavbar";
+import MiniNavbar from "../../components/Others/CompanyMiniNavbar";
 
 const mockProfileData = {
   email: "business@example.com",

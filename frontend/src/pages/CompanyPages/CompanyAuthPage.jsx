@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CompanySignup from "../../components/CompanyComps/CompanyAuth/CompanySignup";
 import CompanyLogin from "../../components/CompanyComps/CompanyAuth/CompanyLogin";
-import MiniNavbar from "../../components/Others/MiniNavbar";
+import MiniNavbar from "../../components/Others/CompanyMiniNavbar";
 
 const CompanyAuth = () => {
   const [isLogin, setIsLogin] = useState(true);

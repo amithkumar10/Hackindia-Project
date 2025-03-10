@@ -22,7 +22,9 @@ const companySchema = new Schema(
     },
     companyWebsite: {
       type: String,
-      default: "",
+
+      default:"",
+
     },
     location: {
       type: String,

@@ -1,4 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+
+import mongoose,{Schema} from "mongoose";
+
+
 
 const freelancerSchema = new Schema({
   name: {
@@ -57,6 +60,7 @@ const freelancerSchema = new Schema({
           ref: "Company",
           required: true,
         },
+
         rating: { type: Number, required: true, min: 1, max: 5 },
         review: { type: String, default: "" },
       },
@@ -69,4 +73,10 @@ const freelancerSchema = new Schema({
   },
 });
 
+
+
 export const Freelancer = mongoose.model("Freelancer", freelancerSchema);
+
+
+
+
