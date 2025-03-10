@@ -73,6 +73,7 @@ npm run dev
 - **Real-Time Chat:** Instant messaging between clients and freelancers using **Socket.io**.
 - **Email Notifications:** Automated emails for job updates and messages.
 - **AI Assistance:** Integration with **Gemini** for intelligent proposal writing.
+- **Job offer via Email:** Using **Nodemailer** for send Job Offer.
 - **Responsive UI:** Built with **React.js**, **Tailwind CSS**, and **Daisy UI** for a smooth experience on all devices.
 
 ---
