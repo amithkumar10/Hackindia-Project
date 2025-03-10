@@ -62,12 +62,14 @@ const CompanySignup = () => {
         required
       />
 
+      <Link to="/company/dashboard">
       <button
         type="submit"
         className="w-full p-3 bg-primary text-white rounded-lg hover:bg-primary-focus transition duration-200"
       >
         Sign Up
       </button>
+      </Link>
     </form>
   );
 };

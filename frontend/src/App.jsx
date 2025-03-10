@@ -7,12 +7,14 @@ import JobPostingsPage from './pages/CompanyPages/JobPostingsPage'
 import CompanyDashboard from './pages/CompanyPages/CompanyDashboard'
 import CompanyProfilePage from './pages/CompanyPages/CompanyProfile'
 import LandingPage from './pages/Others/LandingPage';
-import MessagePage from './pages/CompanyPages/MessagePage';
+import JobSearch from './pages/UserPages/JobSearch';
+import JobDetails from './pages/UserPages/JobDetails';  // Assuming you have a JobDetails component
+import UserAuth from './pages/UserPages/AuthPage';
 
 function App() {
   return (
-    <>
-        <Routes>
+      <Routes>
+        {/* Company Routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/company/dashboard" element={<CompanyDashboard />} />
         <Route path="/company/auth" element={<CompanyAuthPage />} />
@@ -20,10 +22,13 @@ function App() {
         <Route path="/company/profile" element={<CompanyProfilePage />} />
         <Route path="/company/createjob" element={<CreateJobPage />} />
         <Route path="/company/jobpostings" element={<JobPostingsPage />} />
-        <Route path="/company/conversations" element={<MessagePage />} />
+        
+        {/* User Routes */}
+        <Route path="/user/auth" element={<UserAuth />} />
+        <Route path="/user/jobsearch" element={<JobSearch />} />
+        <Route path="/user/jobdetails/:id" element={<JobDetails />} />
       </Routes>
-    </>
-  )
+  );
 }
 
-export default App  
+export default App;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 const UserLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -40,9 +40,11 @@ const UserLogin = () => {
       />
 
       {/* Submit Button */}
+      <Link to="/user/dashboard">
       <button type="submit" className="btn btn-primary w-full rounded-lg">
         Log In
-      </button>
+      </button></Link>
+
     </form>
   );
 };
