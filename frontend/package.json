@@ -10,9 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@splinetool/react-spline": "^4.0.0",
     "@tailwindcss/vite": "^4.0.12",
+<<<<<<< HEAD
+=======
+    "chart.js": "^4.4.8",
+    "framer-motion": "^12.4.10",
+    "lucide-react": "^0.479.0",
+>>>>>>> 887ff65a494469c364ff91860eec9d4a305a0d24
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+<<<<<<< HEAD
+=======
+    "react-router-dom": "^7.3.0",
+    "socket.io-client": "^4.8.1",
+>>>>>>> 887ff65a494469c364ff91860eec9d4a305a0d24
     "tailwindcss": "^4.0.12"
   },
   "devDependencies": {

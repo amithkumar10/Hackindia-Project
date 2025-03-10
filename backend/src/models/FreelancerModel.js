@@ -1,4 +1,6 @@
+
 import mongoose,{Schema} from "mongoose";
+
 
 
 const freelancerSchema = new Schema({
@@ -42,6 +44,7 @@ const freelancerSchema = new Schema({
       {
         projectName: { type: String, required: true },
         projectLink: { type: String, required: true },
+        coverImage: { type: String, required: true },
         description: { type: String, required: true },
         timeline: { type: String, required: true },
         clientName: { type: String, required: true },
@@ -52,7 +55,12 @@ const freelancerSchema = new Schema({
   ratings: {
     type: [
       {
-        companyId: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
+        companyId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Company",
+          required: true,
+        },
+
         rating: { type: Number, required: true, min: 1, max: 5 },
         review: { type: String, default: "" },
       },
@@ -66,7 +74,9 @@ const freelancerSchema = new Schema({
 });
 
 
+
 export const Freelancer = mongoose.model("Freelancer", freelancerSchema);
+
 
 
 

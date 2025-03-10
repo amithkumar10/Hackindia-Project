@@ -1,39 +1,43 @@
-import mongoose,{ Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const jobPostingSchema = new Schema({
-
-    companyId:{
-        type:Schema.Types.ObjectId,
-        ref:"Company"
+const jobPostingSchema = new Schema(
+  {
+    companyId: {
+      type: Schema.Types.ObjectId,
+      ref: "Company",
     },
-    title:{
-        type:String,
-        required:true
+    title: {
+      type: String,
+      required: true,
     },
-    jobDescription:{
-        type:String,
-        required:true
+    jobDescription: {
+      type: String,
+      required: true,
     },
-    skills:[{
-        type:String,
-        required:true
-    }],
-    budget:{
-        type:Number,
-        required:true
+    skills: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+    budget: {
+      type: Number,
+      required: true,
     },
-    status:{
-        type:String,
-        enum:["open","closed"],
-        default:"open"
+    status: {
+      type: String,
+      enum: ["open", "closed"],
+      default: "open",
     },
-    applications: [{
+    applications: [
+      {
         type: Schema.Types.ObjectId,
-        ref: "JobApplication"
-    }],
-    
- 
-  
-},{ timestamps: true });
+        ref: "JobApplication",
+      },
+    ],
+  },
+  { timestamps: true }
+);
+
 
 export const JobPosting = mongoose.model("JobPosting", jobPostingSchema);
