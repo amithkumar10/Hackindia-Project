@@ -15,7 +15,7 @@ const Navbar = () => {
           >
             <li><Link to="/company/dashboard">Dashboard</Link></li>
             <li><Link to="/company/jobpostings">Job Postings</Link></li>
-            <li><Link to="/company/applicants">Conversations</Link></li>
+            <li><Link >Conversations</Link></li>
           </ul>
         </div>
         <span className="text-4xl font-bold px-4 py-2">Mindlancer.ai</span>
@@ -34,7 +34,7 @@ const Navbar = () => {
               Jobs
             </button>
           </Link>
-          <Link to="/company/conversations">
+          <Link>
             <button role="tab" className="tab transition-all duration-300">
               Conversations
             </button>

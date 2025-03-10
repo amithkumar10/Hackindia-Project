@@ -1,5 +1,5 @@
 import JobCard from '../../components/CompanyComps/JobPostingsPage/JobCard'
-import MiniNavbar from '../../components/Others/MiniNavbar';
+import MiniNavbar from '../../components/Others/CompanyMiniNavbar';
 
 const JobPostings = () => {
   const mockJobs = [
