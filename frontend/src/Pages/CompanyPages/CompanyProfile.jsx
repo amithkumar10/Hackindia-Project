@@ -1,18 +1,23 @@
-import { useState } from "react";
-import MiniNavbar from "../../Components/Others/MiniNavbar";
+import { useState, useEffect } from "react";
+import MiniNavbar from "../../components/Others/MiniNavbar";
 
-// Default placeholder image as a data URI
-const defaultProfileImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23333'/%3E%3Ctext x='50' y='50' font-size='20' text-anchor='middle' alignment-baseline='middle' font-family='Arial, sans-serif' fill='white'%3ELogo%3C/text%3E%3C/svg%3E";
+const mockProfileData = {
+  email: "business@example.com",
+  companyName: "Tech Solutions Ltd.",
+  companyDescription: "We provide cutting-edge tech solutions to businesses.",
+  companyWebsite: "https://techsolutions.com",
+  location: "Mumbai, India",
+  logo: "https://via.placeholder.com/100", // Placeholder logo
+};
 
 const CompanyProfile = () => {
-  const [profile, setProfile] = useState({
-    email: "business@example.com",
-    companyName: "",
-    companyDescription: "",
-    companyWebsite: "",
-    location: "",
-    logo: defaultProfileImage,
-  });
+  const [profile, setProfile] = useState(mockProfileData);
+  const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    // Simulating fetch call (Replace this with an actual API call)
+    setProfile(mockProfileData);
+  }, []);
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -29,20 +34,12 @@ const CompanyProfile = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log("Profile data:", profile);
-    // You would typically send this data to your backend
-  };
-
   return (
     <div className="min-h-screen bg-black text-gray-200 flex flex-col">
       <MiniNavbar />
       <div className="flex-grow flex justify-center p-6">
         <div className="w-full max-w-3xl p-6">
-          
-          {/* Header Section with Logo Upload */}
+          {/* Header Section */}
           <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
             <div className="relative group">
               <img
@@ -50,127 +47,95 @@ const CompanyProfile = () => {
                 alt="Profile"
                 className="w-28 h-28 rounded-full border-2 border-gray-400 shadow-xl object-cover bg-gray-700"
               />
-              <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                <span className="text-white text-xs font-medium">Change Logo</span>
-                <input type="file" accept="image/*" className="hidden" onChange={handleLogoChange} />
-              </label>
+              {editMode && (
+                <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                  <span className="text-white text-xs font-medium">Change Logo</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={handleLogoChange} />
+                </label>
+              )}
             </div>
             <div className="md:ml-2">
-              <div className="relative">
-                <h2 className="text-4xl font-bold tracking-tight text-white">
-                  Company Profile
-                </h2>
-                <div className="h-0.5 w-20 bg-white rounded-full mt-2"></div>
-              </div>
-              <p className="text-gray-400 mt-3 text-lg font-light">
-                Manage your company's presence and information
-              </p>
-              <p className="text-xs text-gray-500 mt-2 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Hover over the logo to change it
-              </p>
+              <h2 className="text-4xl font-bold tracking-tight text-white">Company Profile</h2>
+              <div className="h-0.5 w-20 bg-white rounded-full mt-2"></div>
+              <p className="text-gray-400 mt-3 text-lg font-light">Manage your company's information</p>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Company Info */}
-            <div className="p-7 bg-[#1F1F1F] rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-5">Company Info</h3>
-              <div className="space-y-5">
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text text-gray-300 font-medium text-base">Company Name</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="companyName"
-                    value={profile.companyName}
-                    onChange={handleChange}
-                    placeholder="Enter your company name"
-                    className="input w-full bg-[#2C2C2C] text-gray-200 text-base rounded-md"
-                  />
-                </div>
-                
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text text-gray-300 font-medium text-base">Company Description</span>
-                  </label>
-                  <textarea
-                    name="companyDescription"
-                    value={profile.companyDescription}
-                    onChange={handleChange}
-                    placeholder="Describe your company"
-                    rows="4"
-                    className="textarea w-full bg-[#2C2C2C] text-gray-200 text-base leading-relaxed rounded-md"
-                  />
-                </div>
-              </div>
-            </div>
+          {/* Company Info */}
+          <div className="p-7 bg-[#1F1F1F] rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold mb-5">Company Info</h3>
+            <p className="text-gray-300 text-base font-medium">Company Name:</p>
+            {editMode ? (
+              <input
+                type="text"
+                name="companyName"
+                value={profile.companyName}
+                onChange={handleChange}
+                className="input w-full bg-[#2C2C2C] text-gray-200 text-base rounded-md mt-1"
+              />
+            ) : (
+              <p className="text-gray-400">{profile.companyName}</p>
+            )}
 
-            {/* Contact Info */}
-            <div className="p-7 bg-[#1F1F1F] rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-5">Contact Details</h3>
-              <div className="space-y-5">
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text text-gray-300 font-medium text-base">Email Address</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={profile.email}
-                    onChange={handleChange}
-                    placeholder="Enter your email address"
-                    className="input w-full bg-[#2C2C2C] text-gray-200 text-base rounded-md"
-                  />
-                </div>
-                
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text text-gray-300 font-medium text-base">Company Website</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="companyWebsite"
-                    value={profile.companyWebsite}
-                    onChange={handleChange}
-                    placeholder="https://yourcompany.com"
-                    className="input w-full bg-[#2C2C2C] text-gray-200 text-base rounded-md"
-                  />
-                </div>
-              </div>
-            </div>
+            <p className="text-gray-300 text-base font-medium mt-4">Company Description:</p>
+            {editMode ? (
+              <textarea
+                name="companyDescription"
+                value={profile.companyDescription}
+                onChange={handleChange}
+                rows="4"
+                className="textarea w-full bg-[#2C2C2C] text-gray-200 text-base leading-relaxed rounded-md mt-1"
+              />
+            ) : (
+              <p className="text-gray-400">{profile.companyDescription}</p>
+            )}
+          </div>
 
-            {/* Location */}
-            <div className="p-7 bg-[#1F1F1F] rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-5">Company Location</h3>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text text-gray-300 font-medium text-base">Location</span>
-                </label>
-                <input
-                  type="text"
-                  name="location"
-                  value={profile.location}
-                  onChange={handleChange}
-                  placeholder="City, Country"
-                  className="input w-full bg-[#2C2C2C] text-gray-200 text-base rounded-md"
-                />
-              </div>
-            </div>
+          {/* Contact Details */}
+          <div className="p-7 bg-[#1F1F1F] rounded-lg shadow-md mt-6">
+            <h3 className="text-xl font-semibold mb-5">Contact Details</h3>
+            <p className="text-gray-300 text-base font-medium">Email Address:</p>
+            <p className="text-gray-400">{profile.email}</p>
 
-            {/* Save Button */}
-            <div className="flex justify-end">
-              <button 
-                type="submit" 
-                className="btn bg-white text-black hover:bg-gray-200 px-10 py-3 shadow-md text-base font-semibold border-0"
-              >
-                Save Profile
-              </button>
-            </div>
-          </form>
+            <p className="text-gray-300 text-base font-medium mt-4">Company Website:</p>
+            {editMode ? (
+              <input
+                type="text"
+                name="companyWebsite"
+                value={profile.companyWebsite}
+                onChange={handleChange}
+                className="input w-full bg-[#2C2C2C] text-gray-200 text-base rounded-md mt-1"
+              />
+            ) : (
+              <p className="text-gray-400">{profile.companyWebsite}</p>
+            )}
+          </div>
+
+          {/* Location */}
+          <div className="p-7 bg-[#1F1F1F] rounded-lg shadow-md mt-6">
+            <h3 className="text-xl font-semibold mb-5">Company Location</h3>
+            {editMode ? (
+              <input
+                type="text"
+                name="location"
+                value={profile.location}
+                onChange={handleChange}
+                className="input w-full bg-[#2C2C2C] text-gray-200 text-base rounded-md"
+              />
+            ) : (
+              <p className="text-gray-400">{profile.location}</p>
+            )}
+          </div>
+
+          {/* Edit Button */}
+          <div className="flex justify-end mt-6">
+            <button
+              onClick={() => setEditMode(!editMode)}
+              className="btn bg-white text-black hover:bg-gray-200 px-10 py-3 shadow-md text-base font-semibold border-0"
+            >
+              {editMode ? "Save Changes" : "Edit Profile"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

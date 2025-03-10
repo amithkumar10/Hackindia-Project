@@ -8,6 +8,9 @@ const JobForm = () => {
     budget: '',
     deadline: '',
   });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,8 +30,13 @@ const JobForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
+    setIsSubmitting(true);
+    
+    // Simulating a job creation process (e.g., API call)
+    setTimeout(() => {
+      setSuccessMessage('Job created successfully!');
+      setIsSubmitting(false);
+    }, 2000); // Simulated delay
   };
 
   return (
@@ -115,9 +123,16 @@ const JobForm = () => {
       <button
         type="submit"
         className="w-full p-3 mt-4 bg-primary text-white rounded-lg hover:bg-primary-focus transition duration-200 border border-neutral-700 cursor-pointer"
+        disabled={isSubmitting}
       >
-        Create Job
+        {isSubmitting ? 'Creating Job...' : 'Create Job'}
       </button>
+
+      {successMessage && (
+        <div className="mt-4 text-center text-green-500 font-semibold">
+          {successMessage}
+        </div>
+      )}
     </form>
   );
 };
