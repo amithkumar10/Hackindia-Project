@@ -4,7 +4,7 @@ import ApplicantsPage from './pages/CompanyPages/ApplicantsPage'
 import CompanyAuthPage from './pages/CompanyPages/CompanyAuthPage'
 import CreateJobPage from './pages/CompanyPages/CreateJobPage'
 import JobPostingsPage from './pages/CompanyPages/JobPostingsPage'
-import CompanyDashboard from './pages/CompanyPages/CompanyDashboard'
+import CompanyDashboard from './Pages/CompanyPages/CompanyDashboard';
 import CompanyProfilePage from './pages/CompanyPages/CompanyProfile'
 import LandingPage from './pages/Others/LandingPage';
 import JobSearch from './pages/UserPages/JobSearch';
@@ -29,6 +29,7 @@ function App() {
         <Route path="/user/jobdetails/:id" element={<JobDetails />} />
       </Routes>
   );
+
 }
 
 export default App;
