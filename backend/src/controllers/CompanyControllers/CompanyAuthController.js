@@ -1,7 +1,9 @@
 import {JobApplication} from "../../models/JobApplicationModel.js";
 import {Company} from "../../models/CompanyModel.js";
 import {JobPosting} from "../../models/JobPostingModel.js";
+import {Freelancer} from "../../models/FreelancerModel.js";
 import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
 
 
 
@@ -193,13 +195,105 @@ export const getJobApplicants = async (req, res) => {
     }
 }
 
-//accept applicant
+//to shortlist an applicant 
+export const shortlistApplicant = async (req, res) => {
+    try{
+
+        const { jobId } = req.params;
+        const { freelancerId } = req.body;
+
+        if (!jobId || !freelancerId) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
+
+        // Update the application status to "shortlisted"
+        const application = await JobApplication.findOneAndUpdate(
+            { jobId, freelancerId },
+            { applicationStatus: "shortlisted" },
+            { new: true }
+        );
+
+        if (!application) {
+            return res.status(400).json({ message: "Application not found or update failed" });
+        }
+
+        return res.status(200).json({ message: "Applicant shortlisted successfully", application });
+
+
+    }catch{
+        console.error("Error shortlisting applicant:", error);
+        return res.status(500).json({ message: "Internal server error" });
+
+    }
+}
+
+//get all shortlisted applicants
+export const getShortlistedApplicants = async (req, res) => {
+    try{
+        const { jobId } = req.params;
+        if (!jobId) {
+            return res.status(400).json({ message: "job ID not provided" });
+        }
+        const job = await JobPosting.findById(jobId).populate("applications");
+        if (!job) {
+            return res.status(400).json({ message: "Job does not exist" });
+        }
+        const shortlistedApplicants = job.applications.filter(app => app.applicationStatus === "shortlisted");
+        return res.status(200).json({ message: "Shortlisted applicants", applicants: shortlistedApplicants });
+
+    }catch{
+        console.error("Error getting shortlisted applicants:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+    
+
+//this is to be used when we will hire the applicant 
 export const acceptApplicant = async (req, res) => {
     try {
         const { companyId, jobId } = req.params;
-        const { freelancerId } = req.body;
+        const { freelancerId,message} = req.body;
 
-        if (!companyId || !jobId || !freelancerId) {
+        const freelancer = await Freelancer.findById(freelancerId);
+        if (!freelancer || !freelancer.email) {
+            return res.status(400).json({ message: "Freelancer not found or missing email" });
+        }
+
+        const job = await JobPosting.findById(jobId);
+        if (!job) {
+            return res.status(400).json({ message: "Job not found" });
+        }
+
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                
+                user: process.env.EMAIL,
+                pass: process.env.EMAIL_PASSWORD,
+            },
+        });
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: "premshetgaonkar93@gmail.com",//change it later freelancer.email
+            subject: `Job Application Accepted for ${job.title}`,
+            html: `
+                <h2>Congratulations!</h2>
+                <p>Your application for the job <strong>${job.title}</strong> has been accepted.</p>
+                <p><strong>Message from employer:</strong> ${message}</p>
+                <p>Best Regards,</p>
+                <p>The Hiring Team</p>
+            `,
+        };
+
+
+        const emailSent = await transporter.sendMail(mailOptions);
+        console.log("Email sent:", emailSent.response);
+
+        if (!emailSent) {
+            return res.status(400).json({ message: "Email sending failed" });
+        }
+
+        if (!companyId || !jobId || !freelancerId||!message) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
@@ -215,13 +309,13 @@ export const acceptApplicant = async (req, res) => {
         }
 
         // Update the job status to "closed"
-        const job = await JobPosting.findByIdAndUpdate(
+        const updateJob = await JobPosting.findByIdAndUpdate(
             jobId,
             { status: "closed" },
             { new: true }
         );
 
-        if (!job) {
+        if (!updateJob) {
             return res.status(400).json({ message: "Job not found or update failed" });
         }
 
@@ -241,7 +335,9 @@ export const acceptApplicant = async (req, res) => {
                 },
             },
             { new: true }
-        );
+        ).select("-password");
+
+        
 
         if (!updatedCompany) {
             return res.status(400).json({ message: "Setting ongoing project failed" });

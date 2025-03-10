@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 const CompanyLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -37,12 +37,12 @@ const CompanyLogin = () => {
         required
       />
 
-      <button
+      <Link to="/company/dashboard"><button
         type="submit"
         className="w-full p-3 bg-primary text-white rounded-lg hover:bg-primary-focus transition duration-200"
       >
         Log In
-      </button>
+      </button></Link>
     </form>
   );
 };

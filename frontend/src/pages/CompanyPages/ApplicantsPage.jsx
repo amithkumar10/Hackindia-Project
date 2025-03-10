@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ApplicantCard from "../../components/CompanyComps/ApplicantsPage/ApplicantCard";
 import ShortlistedApplicantCard from "../../components/CompanyComps/ApplicantsPage/ShortlistedApplicantCard";
-import MiniNavbar from "../../components/Others/MiniNavbar";
+import MiniNavbar from "../../components/Others/CompanyMiniNavbar";
 import MailBox from "../../components/CompanyComps/ApplicantsPage/MailBox";
 
 // Mock Data for Applicants
