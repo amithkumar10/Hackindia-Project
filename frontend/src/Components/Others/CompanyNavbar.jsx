@@ -1,9 +1,7 @@
-import { Link, useLocation } from 'react-router-dom';
 import { User, Menu } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const location = useLocation();
-
   return (
     <div className="navbar bg-base-100 shadow-sm px-4">
       <div className="navbar-start">
@@ -15,30 +13,32 @@ const Navbar = () => {
             tabIndex={0} 
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/jobs">Job Postings</Link></li>
-            <li><Link to="/projects">Projects</Link></li>
-            <li><Link to="/conversations">Conversations</Link></li>
+            <li><Link to="/company/dashboard">Dashboard</Link></li>
+            <li><Link to="/company/jobpostings">Job Postings</Link></li>
+            <li><Link to="/company/applicants">Conversations</Link></li>
           </ul>
         </div>
-        <Link to="/" className="text-4xl font-bold px-4 py-2">Mindlancer.ai</Link>
+        <span className="text-4xl font-bold px-4 py-2">Mindlancer.ai</span>
       </div>
 
-      {/* ✅ Fixed Tabs with Proper Animation */}
+      {/* ✅ Fixed Tabs with Routing */}
       <div className="navbar-center hidden lg:flex">
         <div role="tablist" className="tabs tabs-lg tabs-bordered">
-          {["dashboard", "jobs", "projects", "conversations"].map((tab) => (
-            <Link 
-              key={tab}
-              to={`/${tab}`}
-              role="tab"
-              className={`tab transition-all duration-300 ${
-                location.pathname === `/${tab}` ? "tab-active border-b-2 border-primary" : ""
-              }`}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </Link>
-          ))}
+          <Link to="/company/dashboard">
+            <button role="tab" className="tab transition-all duration-300">
+              Dashboard
+            </button>
+          </Link>
+          <Link to="/company/jobpostings">
+            <button role="tab" className="tab transition-all duration-300">
+              Jobs
+            </button>
+          </Link>
+          <Link to="/company/conversations">
+            <button role="tab" className="tab transition-all duration-300">
+              Conversations
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -51,9 +51,9 @@ const Navbar = () => {
             tabIndex={0} 
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <li><Link to="/profile">Profile</Link></li>
-            <li><Link to="/settings">Settings</Link></li>
-            <li><Link to="/logout">Logout</Link></li>
+            <li><Link to="/company/profile">Profile</Link></li>
+            <li><button>Settings</button></li>
+            <li><button>Logout</button></li>
           </ul>
         </div>
       </div>

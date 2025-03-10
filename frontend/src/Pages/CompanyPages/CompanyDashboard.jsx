@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from "../../Components/Others/Navbar.jsx";
+import Navbar from "../../components/Others/CompanyNavbar.jsx";
 import { Bar } from 'react-chartjs-2';
 import { Line } from 'react-chartjs-2';
 import { Doughnut } from 'react-chartjs-2';
@@ -10,6 +10,7 @@ import DeadlineItem from '../../Components/CompanyComps/CompanyDashboard/Deadlin
 import NotificationItem from '../../Components/CompanyComps/CompanyDashboard/NotificationItem.jsx';
 import QuickActionCard from '../../Components/CompanyComps/CompanyDashboard/QuickActionCard.jsx';
 import Footer from '../../Components/Others/Footer.jsx';
+import { Link } from 'react-router-dom';
 
 // Register Chart.js components
 Chart.register(...registerables);
@@ -212,20 +213,7 @@ const CompanyDashboard = () => {
       <div className="p-6 max-w-7xl mx-auto flex-grow">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-white">Company Dashboard</h1>
-          <div className="flex space-x-2">
-            <button 
-              className={`px-3 py-1 text-sm rounded ${timeFilter === "month" ? "bg-white text-black" : "bg-transparent text-white border border-white"}`}
-              onClick={() => setTimeFilter("month")}
-            >
-              Month
-            </button>
-            <button 
-              className={`px-3 py-1 text-sm rounded ${timeFilter === "halfyear" ? "bg-white text-black" : "bg-transparent text-white border border-white"}`}
-              onClick={() => setTimeFilter("halfyear")}
-            >
-              6 Months
-            </button>
-          </div>
+
         </div>
 
         {/* Updated Summary Cards */}
@@ -283,6 +271,7 @@ const CompanyDashboard = () => {
           <div className="bg-zinc-900 border border-zinc-800 p-5 rounded-xl shadow-lg lg:col-span-2">
             <h2 className="text-lg font-semibold mb-4 text-white">Quick Actions</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Link to='/company/createjob'>
               <QuickActionCard 
                 title="Post a Job"
                 description="Create a new job listing"
@@ -291,7 +280,8 @@ const CompanyDashboard = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                   </svg>
                 }
-              />
+              /></Link>
+
               
               <QuickActionCard 
                 title="Find Talent"

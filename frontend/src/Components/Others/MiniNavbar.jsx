@@ -1,13 +1,13 @@
 import { Home } from 'lucide-react';
-
+import { Link } from 'react-router-dom';
 const MiniNavbar = () => {
   return (
     <div className="navbar bg-base-100 shadow-sm px-4">
       {/* Left section with home button */}
       <div className="navbar-start">
-        <button className="btn btn-ghost btn-circle">
+        <Link to="/company/dashboard" className="btn btn-ghost btn-circle">
           <Home className="w-6 h-6" />
-        </button>
+        </Link>
       </div>
 
       {/* Center section with brand name */}

@@ -1,5 +1,5 @@
 import { Briefcase, IndianRupee, Calendar, Users } from "lucide-react";
-
+import { Link } from "react-router-dom";
 const JobCard = ({ job }) => {
   const handleViewApplicants = () => {
     // Placeholder action: You can replace this with modal or any other logic
@@ -44,13 +44,15 @@ const JobCard = ({ job }) => {
       </div>
 
       <div className="mt-4 flex justify-end">
-        <button
+      <Link to="/company/applicants">
+      <button
           onClick={handleViewApplicants}
           className="flex items-center gap-2 text-sm text-black bg-gray-200 px-4 py-2 border-2 border-gray-800 rounded-lg cursor-pointer transition"
         >
           <Users className="w-5 h-5" />
           View Applicants
-        </button>
+        </button></Link>
+
       </div>
     </div>
   );
