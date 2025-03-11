@@ -18,7 +18,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/company/dashboard" element={<CompanyDashboard />} />
         <Route path="/company/auth" element={<CompanyAuthPage />} />
-        <Route path="/company/applicants" element={<ApplicantsPage />} />
+        <Route path="/company/:companyId/job/:jobId/applicants" element={<ApplicantsPage />} />
         <Route path="/company/profile" element={<CompanyProfilePage />} />
         <Route path="/company/createjob" element={<CreateJobPage />} />
         <Route path="/company/jobpostings" element={<JobPostingsPage />} />
