@@ -14,7 +14,7 @@ import Footer from "../../Components/Others/Footer";
 const UserDashboard = () => {
   // Mock user data
   const userData = {
-    name: "Alex Johnson",
+    name: "Ved Kamat",
     title: "Full Stack Developer",
     rating: 4.8,
     completedProjects: 47,
