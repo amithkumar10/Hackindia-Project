@@ -35,9 +35,12 @@ const jobPostingSchema = new Schema(
         ref: "JobApplication",
       },
     ],
+    deadline: {
+      type: Date,  // added deadline field
+      required: true,  // optional: set as required if you want to enforce it
+    },
   },
   { timestamps: true }
 );
-
 
 export const JobPosting = mongoose.model("JobPosting", jobPostingSchema);

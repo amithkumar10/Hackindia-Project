@@ -16,22 +16,26 @@ import MessagePages from "./Pages/MessagePages/MessagePages";
 
 function App() {
   return (
-    <Routes>
-      {/* Company Routes */}
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/company/dashboard" element={<CompanyDashboard />} />
-      <Route path="/company/auth" element={<CompanyAuthPage />} />
-      <Route path="/company/applicants" element={<ApplicantsPage />} />
-      <Route path="/company/profile" element={<CompanyProfilePage />} />
-      <Route path="/company/createjob" element={<CreateJobPage />} />
-      <Route path="/company/jobpostings" element={<JobPostingsPage />} />
 
-      {/* User Routes */}
-      <Route path="/user/auth" element={<UserAuth />} />
-      <Route path="/user/jobsearch" element={<JobSearch />} />
-      <Route path="/user/jobdetails/:id" element={<JobDetails />} />
-      <Route path="/user/dashboard" element={<UserDashboard />} />
-      <Route path="/user/profile" element={<UserProfile />} />
+      <Routes>
+        {/* Company Routes */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/company/dashboard" element={<CompanyDashboard />} />
+        <Route path="/company/auth" element={<CompanyAuthPage />} />
+        <Route path="/company/:companyId/job/:jobId/applicants" element={<ApplicantsPage />} />
+        <Route path="/company/profile" element={<CompanyProfilePage />} />
+        <Route path="/company/createjob" element={<CreateJobPage />} />
+        <Route path="/company/jobpostings" element={<JobPostingsPage />} />
+        
+        {/* User Routes */}
+        <Route path="/user/auth" element={<UserAuth />} />
+        <Route path="/user/jobsearch" element={<JobSearch />} />
+        <Route path="/user/jobdetails/:id" element={<JobDetails />} />
+        <Route path="/user/dashboard" element={<UserDashboard />} />
+        <Route path="/user/profile" element={<UserProfile />} />
+      </Routes>
+  );
+
 
       {/* Chat Routes */}
       <Route path="/conversations" element={<MessagePages />} />

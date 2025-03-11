@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "../../../utils/axiosConfig.js"
 
 const CompanySignup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyName: "",
     email: "",
@@ -8,14 +11,38 @@ const CompanySignup = () => {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Signup Data:", formData);
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await axios.post("/api/company/register", formData);
+      console.log("Signup Success:", res.data);
+      
+      // Store company data in session storage
+      sessionStorage.setItem("companyData", JSON.stringify(res.data));
+      
+      // Also store just the ID for easy access
+      if (res.data.companyId) {
+        sessionStorage.setItem("companyId", res.data.companyId);
+      }
+      
+      navigate("/company/dashboard"); // Redirect on success
+    } catch (err) {
+      console.error("Signup Error:", err.response?.data || err.message);
+      setError(err.response?.data?.message || "Signup failed. Try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,14 +89,15 @@ const CompanySignup = () => {
         required
       />
 
-      <Link to="/company/dashboard">
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+
       <button
         type="submit"
         className="w-full p-3 bg-primary text-white rounded-lg hover:bg-primary-focus transition duration-200"
+        disabled={loading}
       >
-        Sign Up
+        {loading ? "Signing Up..." : "Sign Up"}
       </button>
-      </Link>
     </form>
   );
 };

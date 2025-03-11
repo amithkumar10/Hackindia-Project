@@ -1,16 +1,46 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "../../../utils/axiosConfig.js";
+
 const CompanyLogin = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await axios.post("/api/company/login", formData);
+      console.log("Login Success:", res.data);
+      
+      // Store company data in session storage
+      sessionStorage.setItem("companyData", JSON.stringify(res.data));
+      
+      // Also store just the ID for easy access
+      if (res.data.company && res.data.company._id) {
+        sessionStorage.setItem("companyId", res.data.company._id);
+      }
+      
+      navigate("/company/dashboard"); // Redirect on success
+    } catch (err) {
+      console.error("Login Error:", err.response?.data || err.message);
+      setError(err.response?.data?.message || "Login failed. Check credentials and try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,12 +67,15 @@ const CompanyLogin = () => {
         required
       />
 
-      <Link to="/company/dashboard"><button
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+
+      <button
         type="submit"
         className="w-full p-3 bg-primary text-white rounded-lg hover:bg-primary-focus transition duration-200"
+        disabled={loading}
       >
-        Log In
-      </button></Link>
+        {loading ? "Logging In..." : "Log In"}
+      </button>
     </form>
   );
 };
