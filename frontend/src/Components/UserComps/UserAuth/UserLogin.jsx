@@ -1,20 +1,46 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axiosInstance from "../../../utils/axiosConfig.js";
+import { useNavigate } from "react-router-dom";
 const UserLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
+
+    try {
+      const response = await axiosInstance.post(
+        "/api/freelancer/login",
+        formData
+      );
+      console.log("Login Success:", response.data);
+
+      JSON.stringify(response.data);
+
+      const userId = response.data.userId;
+      const userName = response.data.name;
+
+      console.log("About to store freelancerId:", userId);
+      console.log("About to store name:", userName);
+
+      sessionStorage.setItem("userId", userId);
+      sessionStorage.setItem("name", userName);
+
+      // Redirect to dashboard
+      navigate("/user/dashboard");
+    } catch (error) {
+      console.error("Login Error:", error.response?.data || error.message);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form className="space-y-4">
       <h2 className="text-2xl font-semibold text-center">User Login</h2>
 
       {/* Email Field */}
@@ -40,11 +66,13 @@ const UserLogin = () => {
       />
 
       {/* Submit Button */}
-      <Link to="/user/dashboard">
-      <button type="submit" className="btn btn-primary w-full rounded-lg">
-        Log In
-      </button></Link>
 
+      <button
+        onClick={handleSubmit}
+        className="btn btn-primary w-full rounded-lg"
+      >
+        Log In
+      </button>
     </form>
   );
 };

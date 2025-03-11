@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import {Freelancer} from "../../models/FreelancerModel.js";
+import { Freelancer } from "../../models/FreelancerModel.js";
 
 import mongoose from "mongoose";
 
@@ -41,9 +41,10 @@ export const signupFreelancer = async (req, res) => {
     // Save freelancer in DB
     await newFreelancer.save();
 
-    return res
-      .status(201)
-      .json({ message: "Freelancer registered successfully" });
+    res.status(201).json({
+      userId: newFreelancer._id,
+      name: newFreelancer.name,
+    });
   } catch (error) {
     console.error("Signup Error:", error);
     return res.status(500).json({ message: "Internal Server Error" });

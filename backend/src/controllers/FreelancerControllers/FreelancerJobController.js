@@ -1,7 +1,7 @@
 import { JobPosting } from "../../models/JobPostingModel.js";
 import { JobApplication } from "../../models/JobApplicationModel.js";
 import { Company } from "../../models/CompanyModel.js";
-import {Freelancer} from "../../models/FreelancerModel.js";
+import { Freelancer } from "../../models/FreelancerModel.js";
 import mongoose from "mongoose";
 
 //GET ALL JOBS (FILTER IT IN FRONTEND)
@@ -52,7 +52,7 @@ export const getMatchingJobs = async (req, res) => {
 //APPLY FOR JOB
 export const applyForJob = async (req, res) => {
   try {
-    const { jobId, freelancerId, bidAmount } = req.body;
+    const { jobId, freelancerId, bidAmount, proposal } = req.body;
 
     if (
       !mongoose.Types.ObjectId.isValid(jobId) ||
@@ -89,6 +89,7 @@ export const applyForJob = async (req, res) => {
       jobId,
       freelancerId,
       bidAmount: bidAmount || 0,
+      proposal,
       applicationStatus: "pending",
     });
 

@@ -14,10 +14,26 @@ const UserNavbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li><Link to="/user/dashboard"><Home className="w-4 h-4" /> Dashboard</Link></li>
-            <li><Link to="/user/profile"><User className="w-4 h-4" /> Profile</Link></li>
-            <li><Link to="/user/jobsearch"><Briefcase className="w-4 h-4" /> Job Search</Link></li>
-            <li><Link ><MessageSquare className="w-4 h-4" /> Conversations</Link></li>
+            <li>
+              <Link to="/user/dashboard">
+                <Home className="w-4 h-4" /> Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link to="/user/profile">
+                <User className="w-4 h-4" /> Profile
+              </Link>
+            </li>
+            <li>
+              <Link to="/user/jobsearch">
+                <Briefcase className="w-4 h-4" /> Job Search
+              </Link>
+            </li>
+            <li>
+              <Link>
+                <MessageSquare className="w-4 h-4" /> Conversations
+              </Link>
+            </li>
           </ul>
         </div>
         <span className="text-4xl font-bold px-4 py-2">Mindlancer.ai</span>
@@ -41,7 +57,7 @@ const UserNavbar = () => {
               Job Search
             </button>
           </Link>
-          <Link >
+          <Link to="/conversations">
             <button role="tab" className="tab transition-all duration-300">
               Chat
             </button>
@@ -59,9 +75,15 @@ const UserNavbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <li><Link to="/user/profile">Profile</Link></li>
-            <li><button>Settings</button></li>
-            <li><button>Logout</button></li>
+            <li>
+              <Link to="/user/profile">Profile</Link>
+            </li>
+            <li>
+              <button>Settings</button>
+            </li>
+            <li>
+              <button>Logout</button>
+            </li>
           </ul>
         </div>
       </div>
