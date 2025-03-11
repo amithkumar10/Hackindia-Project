@@ -16,6 +16,7 @@ const server = http.createServer(app);
 app.use(express.json());
 app.use(cookieParser());
 
+
 // ✅ Move this CORS middleware to the right place
 app.use(
   cors({
@@ -23,6 +24,7 @@ app.use(
     credentials: true, // Allow cookies & authentication headers
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: ["Content-Type", "Authorization"],
+
   })
 );
 
