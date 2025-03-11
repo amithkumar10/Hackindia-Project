@@ -25,7 +25,7 @@ const LandingPage = () => {
 
       {/* Back to Top Button */}
       {showBackToTop && (
-        <button 
+        <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-8 right-8 z-50 p-4 rounded-full bg-primary text-white shadow-lg transition-opacity duration-300 opacity-100"
         >
@@ -35,13 +35,13 @@ const LandingPage = () => {
 
       {/* Login Buttons - Positioned at the Bottom */}
       <div className="absolute bottom-40 left-1/2 transform -translate-x-1/2 flex gap-6">
-        <button 
+        <button
           className="px-6 py-3 bg-primary text-white rounded-lg shadow-lg text-lg font-semibold hover:bg-primary-dark transition-all"
-          onClick={() => navigate("/company/")}
+          onClick={() => navigate("/company/auth")}
         >
           Business Login
         </button>
-        <button 
+        <button
           className="px-6 py-3 bg-secondary text-white rounded-lg shadow-lg text-lg font-semibold hover:bg-secondary-dark transition-all"
           onClick={() => navigate("/user/auth")}
         >
