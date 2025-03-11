@@ -15,7 +15,16 @@ const server = http.createServer(app);
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+
+// ✅ Move this CORS middleware to the right place
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Only allow requests from this origin
+    credentials: true, // Allow cookies & authentication headers
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // Initialize Socket.io
 const io = initializeSocket(server);

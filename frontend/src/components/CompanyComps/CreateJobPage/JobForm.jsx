@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from '../../../utils/axiosConfig.js'
 
 const JobForm = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const JobForm = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,15 +30,29 @@ const JobForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulating a job creation process (e.g., API call)
-    setTimeout(() => {
-      setSuccessMessage('Job created successfully!');
+    setErrorMessage(''); // Reset previous error message
+
+    try {
+      // Get companyId from sessionStorage
+      const companyId = sessionStorage.getItem('companyId');
+      if (!companyId) {
+        throw new Error('Company ID not found in session storage');
+      }
+
+      const response = await axios.post(`/api/company/job/${companyId}`, formData);
+
+      if (response.status === 201) {
+        setSuccessMessage('Job created successfully!');
+      }
+    } catch (error) {
+      console.error('Error posting job:', error);
+      setErrorMessage('Failed to create job. Please try again.');
+    } finally {
       setIsSubmitting(false);
-    }, 2000); // Simulated delay
+    }
   };
 
   return (
@@ -131,6 +147,12 @@ const JobForm = () => {
       {successMessage && (
         <div className="mt-4 text-center text-green-500 font-semibold">
           {successMessage}
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="mt-4 text-center text-red-500 font-semibold">
+          {errorMessage}
         </div>
       )}
     </form>

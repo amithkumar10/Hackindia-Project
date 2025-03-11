@@ -5,71 +5,79 @@ import {Freelancer} from "../../models/FreelancerModel.js";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 
-
-
-
-
-export const companyRegister=async(req,res)=>{
-    try{
-        const {email,password,companyName,location}=req.body;
+export const companyRegister = async (req, res) => {
+    try {
+        const { email, password, companyName, location } = req.body;
         console.log(req.body);
 
         const existingCompany = await Company.findOne({ email });
         if (existingCompany) {
-        return res.status(400).json({ message: "Company already exists" });
+            return res.status(400).json({ message: "Company already exists" });
         }
 
         const hashPassword = await bcrypt.hash(password, 10);
-        if(!hashPassword){
+        if (!hashPassword) {
             return res.status(400).json({ message: "Password hashing failed" });
         }
 
         const newCompany = await Company.create({
             email,
-            password:hashPassword,
+            password: hashPassword,
             companyName,
             location,
-
         });
-        if(!newCompany){
+
+        if (!newCompany) {
             return res.status(400).json({ message: "Company registration failed" });
         }
 
-        return res.status(201).json({ message: "Company registered successfully", company: newCompany });
-
-    }catch{
+        // Return a more complete response that includes company data
+        return res.status(201).json({ 
+            message: "Company registered successfully", 
+            companyId: newCompany._id,
+            company: {
+                _id: newCompany._id,
+                email: newCompany.email,
+                companyName: newCompany.companyName,
+                location: newCompany.location
+                // Exclude password and other sensitive data
+            }
+        });
+    } catch (error) {
         console.error("Error registering company:", error);
         return res.status(500).json({ message: "Internal server error" });
-
     }
-
 }
-
-export const companyLogin=async(req,res)=>{
-    try{
-        const {email,password}=req.body;
+export const companyLogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
         
-
-        const existingCompany = await Company.findOne({ email });
-        if(!existingCompany){
-            return res.status(400).json({ message: "Company does not exist" });
+        const company = await Company.findOne({ email });
+        if (!company) {
+            return res.status(404).json({ message: "Company not found" });
         }
-        console.log(existingCompany);
-
-        const isPasswordValid = await bcrypt.compare(password, existingCompany.password);
-        if(!isPasswordValid){
-            return res.status(400).json({ message: "Invalid password" });
-        }  
-
-      
-
-        return res.status(200).json({ message: "Login successful", companyName: existingCompany.companyName, companyId: existingCompany._id });
-    }
-    catch(error){
-        console.error("Error logging in company:", error);
+        
+        const isPasswordValid = await bcrypt.compare(password, company.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: "Invalid password" });
+        }
+        
+        // Return company data (excluding sensitive information)
+        return res.status(200).json({
+            message: "Login successful",
+            company: {
+                _id: company._id,
+                email: company.email,
+                companyName: company.companyName,
+                location: company.location,
+                // Include any other non-sensitive fields
+            }
+        });
+    } catch (error) {
+        console.error("Error during company login:", error);
         return res.status(500).json({ message: "Internal server error" });
     }
-}
+};
 
 export const getProfile=async(req,res)=>{
     try{
@@ -112,37 +120,42 @@ export const updateProfile=async(req,res)=>{
 }
 
 
-
-
 //all the applicants who have applied for the job posting 
-
-export const addJob=async(req,res)=>{
-
-    try{
-        const {companyId} = req.params;
-        if(!companyId){
-            return res.status(400).json({ message: "Company not logged in" });
-        }
-        const {title,jobDescription,skills,budget} = req.body;
-        const newJob = await JobPosting.create({
-            companyId,
-            title,
-            jobDescription,
-            skills,
-            budget
-        });
-        if(!newJob){
-            return res.status(400).json({ message: "Job posting failed" });
-        }
-        return res.status(201).json({ message: "Job posted successfully", job: newJob });
-
+export const addJob = async (req, res) => {
+    try {
+      const { companyId } = req.params;
+      if (!companyId) {
+        return res.status(400).json({ message: "Company not logged in" });
+      }
+      
+      const { title, jobDescription, skills, budget, deadline } = req.body;
+  
+      // Check if all required fields are provided
+      if (!title || !jobDescription || !skills || !budget || !deadline) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+  
+      // Create the new job posting with deadline
+      const newJob = await JobPosting.create({
+        companyId,
+        title,
+        jobDescription,
+        skills,
+        budget,
+        deadline,  // added deadline here
+      });
+  
+      if (!newJob) {
+        return res.status(400).json({ message: "Job posting failed" });
+      }
+  
+      return res.status(201).json({ message: "Job posted successfully", job: newJob });
+    } catch (error) {
+      console.error("Error posting job:", error);
+      return res.status(500).json({ message: "Internal server error" });
     }
-    catch(error){
-        console.error("Error posting job:", error);
-        return res.status(500).json({ message: "Internal server error" });
-    }
-
-} 
+  };
+  
 
 
 //optional if you want to show all his jobs postings
@@ -184,7 +197,10 @@ export const getJobApplicants = async (req, res) => {
       if (!jobId) {
         return res.status(400).json({ message: "job ID not provided" });
       }
-      const job = await JobPosting.findById(jobId).populate("applications");
+      const job = await JobPosting.findById(jobId).populate({
+        path: "applications",
+        populate: { path: "freelancerId", select: "name skills location email" } // Select the required fields
+    });
       if (!job) {
         return res.status(400).json({ message: "Job does not exist" });
       }

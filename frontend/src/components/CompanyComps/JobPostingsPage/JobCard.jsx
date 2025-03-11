@@ -1,13 +1,26 @@
+import { useNavigate } from "react-router-dom";
 import { Briefcase, IndianRupee, Calendar, Users } from "lucide-react";
-import { Link } from "react-router-dom";
-const JobCard = ({ job }) => {
+
+const JobCard = ({ job, companyId }) => {
+  const navigate = useNavigate();
+
   const handleViewApplicants = () => {
-    // Placeholder action: You can replace this with modal or any other logic
-    console.log(`Viewing applicants for job: ${job.title}`);
+    // Check if companyId and jobId are valid
+    if (!companyId || !job.id) {
+      console.error("Invalid companyId or jobId");
+      return;
+    }
+
+    // Store companyId and jobId in sessionStorage
+    sessionStorage.setItem('companyId', companyId);
+    sessionStorage.setItem('jobId', job.id);  // Store the jobId from the card
+
+    // Navigate to the route with companyId and jobId
+    navigate(`/company/${companyId}/job/${job.id}/applicants`);
   };
 
   return (
-    <div className="bg-black border border-neutral-800 p-5 rounded-xl shadow-md w-full max-w-lg transition hover:scale-[1.02] hover:shadow-lg">
+    <div className="bg-black border border-neutral-800 p-5 rounded-xl shadow-md w-full sm:w-[300px] md:w-[350px] lg:w-[400px] transition hover:scale-[1.02] hover:shadow-lg">
       <h2 className="text-xl font-semibold text-white flex items-center gap-2">
         <Briefcase className="w-5 h-5 text-primary" /> {job.title}
       </h2>
@@ -44,15 +57,13 @@ const JobCard = ({ job }) => {
       </div>
 
       <div className="mt-4 flex justify-end">
-      <Link to="/company/applicants">
-      <button
+        <button
           onClick={handleViewApplicants}
           className="flex items-center gap-2 text-sm text-black bg-gray-200 px-4 py-2 border-2 border-gray-800 rounded-lg cursor-pointer transition"
         >
           <Users className="w-5 h-5" />
           View Applicants
-        </button></Link>
-
+        </button>
       </div>
     </div>
   );
