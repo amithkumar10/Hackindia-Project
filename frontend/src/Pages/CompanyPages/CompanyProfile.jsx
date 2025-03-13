@@ -1,23 +1,35 @@
 import { useState, useEffect } from "react";
 import MiniNavbar from "../../components/Others/CompanyMiniNavbar";
-
-const mockProfileData = {
-  email: "business@example.com",
-  companyName: "Tech Solutions Ltd.",
-  companyDescription: "We provide cutting-edge tech solutions to businesses.",
-  companyWebsite: "https://techsolutions.com",
-  location: "Mumbai, India",
-  logo: "https://via.placeholder.com/100", // Placeholder logo
-};
+import  axiosInstance from "../../utils/axiosConfig.js"
 
 const CompanyProfile = () => {
-  const [profile, setProfile] = useState(mockProfileData);
+  const [profile, setProfile] = useState({
+    email: "",
+    companyName: "",
+    companyDescription: "",
+    companyWebsite: "",
+    location: "",
+    logo: "https://via.placeholder.com/100", // Default placeholder
+  });
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const companyId=sessionStorage.getItem("companyId");
 
+  // Fetch profile data from backend on component mount
   useEffect(() => {
-    // Simulating fetch call (Replace this with an actual API call)
-    setProfile(mockProfileData);
-  }, []);
+    const fetchProfile = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/company/profile/${companyId}`);
+        const companyData = response.data.company; // Extract the 'company' object
+        setProfile(
+         companyData
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, [companyId]);
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -28,11 +40,33 @@ const CompanyProfile = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setProfile({ ...profile, logo: reader.result });
+        setProfile({ ...profile, logo: reader.result }); // Base64 string
       };
       reader.readAsDataURL(file);
     }
   };
+
+  // Save changes to backend
+  const handleSave = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profile),
+      });
+      if (!response.ok) throw new Error("Failed to save profile");
+      const updatedProfile = await response.json();
+      setProfile(updatedProfile);
+      setEditMode(false); // Exit edit mode on success
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      alert("Failed to save changes. Please try again.");
+    }
+  };
+
+  if (loading) {
+    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-black text-gray-200 flex flex-col">
@@ -95,7 +129,7 @@ const CompanyProfile = () => {
           <div className="p-7 bg-[#1F1F1F] rounded-lg shadow-md mt-6">
             <h3 className="text-xl font-semibold mb-5">Contact Details</h3>
             <p className="text-gray-300 text-base font-medium">Email Address:</p>
-            <p className="text-gray-400">{profile.email}</p>
+            <p className="text-gray-400">{profile.email}</p> {/* Email not editable for simplicity */}
 
             <p className="text-gray-300 text-base font-medium mt-4">Company Website:</p>
             {editMode ? (
@@ -127,10 +161,10 @@ const CompanyProfile = () => {
             )}
           </div>
 
-          {/* Edit Button */}
+          {/* Edit/Save Button */}
           <div className="flex justify-end mt-6">
             <button
-              onClick={() => setEditMode(!editMode)}
+              onClick={editMode ? handleSave : () => setEditMode(true)}
               className="btn bg-white text-black hover:bg-gray-200 px-10 py-3 shadow-md text-base font-semibold border-0"
             >
               {editMode ? "Save Changes" : "Edit Profile"}
