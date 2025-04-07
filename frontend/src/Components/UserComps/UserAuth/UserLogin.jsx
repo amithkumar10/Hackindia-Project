@@ -21,8 +21,6 @@ const UserLogin = () => {
       );
       console.log("Login Success:", response.data);
 
-      JSON.stringify(response.data);
-
       const userId = response.data.userId;
       const userName = response.data.name;
 

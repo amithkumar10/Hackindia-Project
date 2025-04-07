@@ -42,7 +42,8 @@ const JobDetails = () => {
 
     setLoading(true);
     try {
-      const GEMINI_API_KEY = "AIzaSyC0-Si3Uo7tYK9NQPYEvsDdfkxav3sgaE8"; // Replace with your actual API key
+      const GEMINI_API_KEY = "AIzaSyC0-Si3Uo7tYK9NQPYEvsDdfkxav3sgaE8";
+
       const response = await axios.post(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
         {

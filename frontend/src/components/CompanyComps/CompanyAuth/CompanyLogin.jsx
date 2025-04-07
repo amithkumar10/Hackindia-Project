@@ -25,19 +25,30 @@ const CompanyLogin = () => {
     try {
       const res = await axios.post("/api/company/login", formData);
       console.log("Login Success:", res.data);
-      
-      // Store company data in session storage
-      sessionStorage.setItem("companyData", JSON.stringify(res.data));
-      
-      // Also store just the ID for easy access
-      if (res.data.company && res.data.company._id) {
-        sessionStorage.setItem("companyId", res.data.company._id);
-      }
-      
-      navigate("/company/dashboard"); // Redirect on success
+
+      // // Store company data in session storage
+      // sessionStorage.setItem("companyData", JSON.stringify(res.data));
+
+      // // Also store just the ID for easy access
+      // if (res.data.company && res.data.company._id) {
+      //   sessionStorage.setItem("companyId", res.data.company._id);
+      // }
+
+      const companyName = res.data.company.companyName;
+      const companyId = res.data.company._id;
+
+      sessionStorage.setItem("companyId", companyId);
+      sessionStorage.setItem("companyName", companyName);
+
+      console.log("About to store companyId:", companyId);
+      console.log("About to store companyName:", companyName);
+      navigate("/company/dashboard");
     } catch (err) {
       console.error("Login Error:", err.response?.data || err.message);
-      setError(err.response?.data?.message || "Login failed. Check credentials and try again.");
+      setError(
+        err.response?.data?.message ||
+          "Login failed. Check credentials and try again."
+      );
     } finally {
       setLoading(false);
     }
