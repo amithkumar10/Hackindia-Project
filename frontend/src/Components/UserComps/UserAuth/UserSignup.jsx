@@ -17,7 +17,7 @@ const UserSignup = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,15 +40,12 @@ const UserSignup = () => {
       );
       console.log("Signup Success:", response.data);
 
-      JSON.stringify(response.data);
-
       const freelancerId = response.data.userId;
       const freelancerName = response.data.name;
 
       sessionStorage.setItem("userId", freelancerId);
       sessionStorage.setItem("name", freelancerName);
 
-      // Redirect to dashboard
       navigate("/user/dashboard");
     } catch (error) {
       console.error("Signup Error:", error.response?.data || error.message);

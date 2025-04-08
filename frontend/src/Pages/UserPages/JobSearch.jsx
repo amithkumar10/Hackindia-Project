@@ -4,7 +4,7 @@ import axios from "axios";
 import FilterBar from "../../components/UserComps/JobSearch/FilterBar";
 import JobCard from "../../components/UserComps/JobSearch/JobCard";
 import SuggestedJobs from "../../components/UserComps/JobSearch/SuggestedJobs";
-import UserMiniNavbar from "../../components/Others/UserMiniNavbar";
+import UserNavbar from "../../components/Others/UserNavbar";
 
 const JobSearch = () => {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const JobSearch = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="mini-navbar mb-6">
-        <UserMiniNavbar />
+        <UserNavbar />
       </div>
 
       <div className="flex flex-col lg:flex-row gap-4">
