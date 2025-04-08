@@ -57,6 +57,11 @@ const UserNavbar = () => {
               Job Search
             </button>
           </Link>
+          <Link to="/user/appliedjobs">
+            <button role="tab" className="tab transition-all duration-300">
+              Applied Jobs
+            </button>
+          </Link>
           <Link to="/conversations">
             <button role="tab" className="tab transition-all duration-300">
               Chat

@@ -13,6 +13,7 @@ import UserAuth from "./pages/UserPages/AuthPage";
 import UserDashboard from "./pages/UserPages/UserDashboard";
 import UserProfile from "./pages/UserPages/UserProfile";
 import MessagePages from "./Pages/MessagePages/MessagePages";
+import AppliedJobs from "./Pages/UserPages/AppliedJobs";
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
       <Route path="/user/auth" element={<UserAuth />} />
       <Route path="/user/jobsearch" element={<JobSearch />} />
       <Route path="/user/jobdetails/:id" element={<JobDetails />} />
+      <Route path="/user/appliedjobs" element={<AppliedJobs />} />
+
+      {/* User Profile and Dashboard Routes */}
       <Route path="/user/dashboard" element={<UserDashboard />} />
       <Route path="/user/profile" element={<UserProfile />} />
 
